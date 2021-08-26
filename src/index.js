@@ -15,6 +15,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/users/children", require("./routes/children.routes"));
+app.use("/api/activities", require("./routes/activities.routes"));
 
 // Starting the server
 app.listen(app.get("port"), () => {

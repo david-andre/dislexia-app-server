@@ -11,19 +11,28 @@ router.get("/", async (req, res) => {
 });
 
 // GET niño por nombre y apellido
-router.get("/:nombre/:apellido", async (req, res) => {
-  const child = await User.findOne({
-    nombre: req.params.nombre,
-    apellido: req.params.apellido,
+router.get("/find", async (req, res) => {
+  const child = await Child.findOne({
+    nombre: req.body.nombre,
+    apellido: req.body.apellido,
   });
   res.json(child);
 });
 
+// POST niño
+router.post("/", async (req, res) => {
+  const { nombre, apellido } = req.body;
+  const child = new Child({ nombre, apellido });
+  await child.save();
+  res.json({ message: "Se registro un nuevo niño" });
+});
+
 // PUT niño por nombre y apellido
-router.put("/:nombre/:apellido", async (req, res) => {
-  const newUser = { nombre, apellido };
-  await Child.findOneAndUpdate({ correo: req.params.correo }, newUser);
-  res.json({ status: `Se actualizo los datos de ${newUser}` });
+router.put("/:id", async (req, res) => {
+  const { nombre, apellido } = req.body;
+  const newChild = { nombre, apellido };
+  await Child.findByIdAndUpdate({ nombre: req.params.id }, newChild);
+  res.json({ message: `Se actualizo los datos del niño` });
 });
 
 module.exports = router;
